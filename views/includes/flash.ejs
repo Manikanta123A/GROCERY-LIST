@@ -1,0 +1,33 @@
+<style>
+    .flash{
+        display:flex;
+        flex-direction: row;
+        margin-left:auto;
+        margin-right:auto;
+        background-color: rgba(202, 21, 21, 0.5);
+        padding: 0 2rem 0 2rem ;
+        justify-content:space-evenly;
+        font-size: 1.5rem;
+    }
+    .button{
+        margin-left:10px;
+        background-color: transparent;
+        border:none;
+    }
+    .button i{
+        font-size:2rem;
+    }
+</style>
+
+<%if(message.length>0){%>
+    <div class="flash">
+        <p><%=message%></p>
+        <button class="button" onclick="willcl()"><h4><i class="fa-solid fa-xmark"></i></h4></button>
+    </div>
+<%}%>
+<script>
+    function willcl(){
+        let docs = document.getElementsByClassName("flash")
+        docs[0].style.display = "none"
+    }
+</script>

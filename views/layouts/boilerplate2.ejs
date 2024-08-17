@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROJECT</title>
+    <link rel="icon" href="https://static.vecteezy.com/system/resources/previews/002/061/780/non_2x/project-management-1-2-3-steps-icon-eps-vector.jpg"/>
+    <link rel="stylesheet" href="/css/style.css"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <%-include("../includes/flash")%>
+    <div class="nav-bar bar">
+        <a href="/"><i class="fa-solid fa-house"></i></a>
+        <%if(!currUser){%>
+        <a href="/user/signup" class="anc an">sign up</a>
+        <a class="an" href="/user/login">login</a>
+        <%}%>
+        <%if(currUser) {%>
+            <a class="anc"href="/user/logout">Logout</a>
+        <%}%>
+    </div>
+    <div class="container">
+        <%-body%>
+    </div>
+  
+    <script href="/js/java.js"></script>
+</body>
+</html>

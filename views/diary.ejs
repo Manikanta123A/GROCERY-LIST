@@ -1,0 +1,157 @@
+<%layout("./layouts/boilerplate2")-%>
+<style>
+    .calender{
+        display:flex;
+        flex-direction:column;
+        margin-left:auto;
+        margin-right:auto;
+        margin-top:5rem;
+        border:1px solid black ;
+        width:300px;
+    }
+    #Month{
+        text-align: center;
+        font-size: 2rem;
+        background-color: aqua;
+        padding:1rem 0 1rem 0;
+    }
+    #day{
+        text-align: center;
+        font-size: 1.5rem;
+        margin-top:10px;
+        margin-bottom:10px;
+    }
+    #Date{
+        text-align: center;
+        font-size:3.5rem;
+        margin-bottom:10px;
+    }
+    input{
+        width:200px;
+        height:40px;
+       
+    }
+    .button{
+        width:150px;
+        height:40px;
+        color: black;
+        margin-top:20px;
+        border: 2px solid black;
+    }
+    .button:hover{
+        background-color: red;
+        color:white;
+    }
+    form{
+        text-align: center;
+    }
+    .buttons{
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+    }
+</style>
+
+<div class="buttons">
+    <button onclick="p()" class="btn">previous</button>
+    <button onclick="n()" class="btn">later</button>
+</div>
+
+<div class="calender">
+        <div id="Month"></div>
+        <div id="day"></div>
+        <div id="Date"></div>
+</div>
+<form method="post" action="/diary/submit">
+    <input type="string" name="number" placeholder="Enter Liters"/>
+    <button class="button">Add</button>
+</form>
+<form>
+<button class="button">CHECKOUT</button>
+</form>
+<script>
+    let date = new Date()
+    let month = date.getMonth()
+    let dat = date.getDate()
+    let docs = document.querySelector('body')
+    let newp = document.getElementById("Month")
+    let newpp = document.getElementById("Date")
+    let newd = document.getElementById("day")
+    let endDate = new Date(date.getFullYear() , date.getMonth()+1,0)
+    let arr = ["Jan","Feb","March","April","May","June","July","Aug","Sep","Oct","Nov","Dec"]
+    let days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
+    newp.innerHTML = arr[date.getMonth()]
+    newpp.innerHTML = date.getDate()
+    newd.innerHTML = days[date.getDay()]
+    let year = date.getFullYear()
+    let value = date.getMonth()
+    let start = new Date(year, value , 1)
+    let End = new Date(year,value+1, 0 )
+    let end= End.getDate()
+    let day = date.getDay()
+    let datee = date.getDate()
+    function p(){
+        if(datee == 1){
+            if(value ==0){
+                value = 12
+                year = year -1
+            }
+            newp.innerHTML = arr[value-1]
+            datee = new Date(year,value, 0 ).getDate()
+            value= value-1
+            if (day == 0){
+            day=7
+            }
+            newd.innerHTML = days[day-1]
+            day = day-1
+            newpp.innerHTML = datee
+        }
+        else{
+        // if(value ==0){
+        //     value = 12
+        // }
+        // if(day==0){
+        //     day=7
+        // }
+        // newp.innerHTML=arr[value-1]
+        // newd.innerHTML = days[day -1]
+        // value = value-1
+        // day = day-1
+        if (day == 0){
+            day=7
+        }
+        newd.innerHTML = days[day-1]
+        day = day-1
+        newpp.innerHTML = datee-1
+        datee = datee-1
+        }
+    }
+    function n(){
+        if (datee == end){
+            if (day == 6){
+                day=-1
+            }
+            if (value == 11){
+                value = -1
+                year = year + 1
+            }
+            newd.innerHTML = days[day+1]
+            day = day+1
+            console.log("Month Finished")
+            newp.innerHTML = arr[value+1]
+            value = value + 1
+            end = new Date(year, value+1, 0).getDate()
+            datee = 1
+            newpp.innerHTML = datee
+        }
+        else{
+            if (day == 6){
+            day=-1
+         }
+        newpp.innerHTML = datee+1
+        datee = datee+1
+        newd.innerHTML = days[day+1]
+        day = day+1
+        }
+    }
+</script>

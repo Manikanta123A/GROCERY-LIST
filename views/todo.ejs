@@ -1,0 +1,174 @@
+<%layout("./layouts/boilerplate.ejs")-%>
+<style>
+    #hello{
+        color:yellow;
+    }
+    body{
+        background-color:black
+    }
+    .task{
+        margin-top:1rem;
+        border: 1px solid rgb(66, 63, 63);
+        color:yellow;
+        height:auto;
+        word-wrap:break-word;
+        font-size:2rem;
+        margin-left:10px;
+        margin-right: 10px;
+    }
+    .task input{
+        margin-right:10px;;
+        margin-left:5rem;
+    }
+    .todo{
+        display: flex;
+        flex-direction:row;
+        text-align: center;
+        margin-top:1rem;
+        margin-left:auto;
+        margin-right:auto;
+    }
+    .todo input{
+        width: 200px;
+        height:30px;
+        margin-left: auto;
+        padding-left: 15px;
+    }
+    .todo input:hover{
+        border-color: 3px red;
+    }
+    .todo input::placeholder{
+        text-align: center;
+    }
+    .todo button{
+        margin-right: auto;
+        margin-left: 10px;
+        
+    }
+    .todo button:hover{
+        border:black;
+        background-color: red;
+        color:white;
+    }
+    .h3{
+        color:red !important ;
+    }
+    .h3:hover{
+        color:yellow !important;
+    }
+    @media (max-width:600px) {
+        .task input{
+            margin-left: 10px;
+        }
+    }
+</style>
+<h3><a  class="h3"  href="/explore">GO BACK</a></h3>
+<div >
+    <form class="todo" onsubmit="submitts()">
+    <input type="text" placeholder="Enter your task" />
+    <button onclick="willclick()">Add</button>
+    </form>
+</div>
+<%for(task of arrr){%>
+    <div class="task">
+        <input id="inp" type="checkbox" onchange="change()"/>
+        <%= task%>
+    </div>
+<%}%>
+<script>
+    let arr = <%- JSON.stringify(arrr)%>
+    let btns = document.getElementById("inp")
+    function change(){
+        let mooc = event.target
+        mooc.parentElement.style.opacity = 0.5
+            if (mooc.checked == true){
+                setTimeout(()=>{
+                    if(mooc.checked == true){
+                        mooc.parentElement.style.display = "none"
+                        arr = arr.filter((ele)=>( ele == mooc.parentElement.innerText.trim()? false:true))
+                        const cart = { Tasks:arr };
+                        $.ajax({
+                            url:"/todo/tasks",
+                            type:"POST",
+                            contentType:'application/json',
+                            data:JSON.stringify(cart),
+                            success:
+                            function(response){
+                            console.log("sucessfully added")
+                            },
+                                        
+                        })
+                                                   
+                    }
+                    else{
+                        mooc.parentElement.style.opacity = 1
+                    }
+                },2000)
+            }
+    }
+    let doc = document.getElementById("hello")
+    let inp = document.querySelector('input')
+    let docs = document.querySelector("body")
+    doc.innerHTML=arr[0]
+    function willclick(){
+        event.preventDefault()
+        console.log(arr)
+        let value = inp.value
+        arr.push(value)
+        inp.value = ""
+        let newp = document.createElement("div")
+        let button = document.createElement("input")
+        button.setAttribute('type','checkbox')
+        button.addEventListener('change',()=>{
+            button.parentElement.style.opacity = 0.5
+            if (button.checked == true){
+                setTimeout(()=>{
+                   if(button.checked == true){
+                    button.parentElement.style.display = "none"
+                    console.log(button.parentElement.childNodes[1].data)
+                    arr = arr.filter((ele)=>(
+                        ele == button.parentElement.childNodes[1].data? false:true
+                    ))
+                    const cart = {
+                            Tasks:arr
+                        };
+        $.ajax({
+            url:"/todo/tasks",
+            type:"POST",
+            contentType:'application/json',
+            data:JSON.stringify(cart),
+            success:
+            function(response){
+                console.log("sucessfully added")
+            },
+           
+        })
+                   }
+                   else{
+                    button.parentElement.style.opacity = 1
+                   }
+                },2000)
+            }
+        })
+
+        newp.setAttribute('class',"task")
+        newp.innerHTML=arr[arr.length-1]
+        docs.appendChild(newp)
+        newp.insertAdjacentElement("afterbegin",button)
+        const cart = {
+            Tasks:arr
+        };
+        $.ajax({
+            url:"/todo/tasks",
+            type:"POST",
+            contentType:'application/json',
+            data:JSON.stringify(cart),
+            success:
+            function(response){
+                console.log("sucessfully added")
+            },
+           
+        })
+    }
+
+</script>

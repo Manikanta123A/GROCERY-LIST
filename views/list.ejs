@@ -1,0 +1,65 @@
+<%-layout("./layouts/boilerplate.ejs")%>
+<style>
+    .card-2{
+        display: flex;
+        flex-direction:column !important;
+    }
+    .img-2{
+        width:auto;
+        height:40px;
+    }
+    .info{
+        margin-top:2rem;
+        margin-bottom:2rem;
+    }
+    .btn2{
+        margin-top:25px;
+        width:80px;
+        height:30px;
+        background-color: greenyellow;
+        border-radius:25px;
+        border-color:none;
+        transition:transform 3s, background-color 3s,color 3s;
+    }
+    .btn2:hover{
+        background-color:red;
+        color:white;
+        cursor:pointer;
+    }
+    .span{
+        font-size:1.5rem;
+    }
+    .list-bar a{
+        font-size:2rem;
+        padding-left: 30px;
+    }
+    .anch:hover{
+        text-decoration:underline;
+        color:red;
+    }
+</style>
+<div class="nav-bar list-bar">
+    <a href="/"><i class="fa-solid fa-house"></i></a>
+    <a href="/listings" class="anch">All Items</a>
+</div>
+<%for(item of MyItems){%>
+    <div class="card">
+        <img class="img" src="<%=item.MyItem.image.url%>"/>
+        <div>
+        <h2 class="info"><%=item.MyItem.Name%></h2>
+        <span class="span"><%=item.Quantity%></span>
+        <span class="span"><%=item.MyItem.measurement%></span>
+        <br/>
+        <form method="post" action="/list/<%=item.id%>?_method=DELETE">
+       <button class="btn2" id="button2">Done</button>
+       </form>
+        </div>
+    </div>
+<%}%>
+<script>
+    let button = document.getElementById("button2")
+    button.addEventListener("click",(event)=>{
+        event.preventDefault()
+        button.parentElement.parentElement.style.display="none"
+    })
+</script>

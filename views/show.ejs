@@ -1,0 +1,65 @@
+<%-layout("./layouts/boilerplate.ejs")%>
+<style>
+    .nav-bar .anc{
+        margin-left: 10px;
+    }
+</style>
+<div class="offset">
+    <div class="nav-bar">
+        <a href="/"><i class="fa-solid fa-house"></i></a>
+        <a class="anchor anc" href="/list">MyList</a>
+        <form class="form" method="get" action="/listings/show">
+            <input type="text" placeholder="Enter Item name" name="Name"/>
+            <button><i class="fa-solid fa-magnifying-glass"></i>Search</button>
+        </form>
+        <a class="anchor" href="/listings/new">Add new list</a>
+    </div>
+    <div class="snav-bar">
+        <a class="anchor" href="/listings/new">Add new list</a>
+        <a class="anchor" href="/list">MyList</a>
+    </div>
+    <%for(item of allItems){%>
+        <div class="card">
+            <img class="img"src=<%=item.image.url%> />
+            <div class="content">
+                <p class="name"><%=item.Name%></p>
+                <form onsubmit="getdata(event)">
+                    <input class="input" name="quantity" type="text" value="2" /> 
+                    <p class="category"><%=item.measurement%></p>
+                    <button class="btn" onclick="clicked(event)">Add to list</button>
+                </form>
+            </div>
+        </div>
+    <%}%>
+    <script>
+        let clicked=(event)=>{
+            let doc = event.target
+            doc.innerHTML="ADDED"
+            setTimeout(()=>{
+                doc.innerHTML="Add to list"
+            },3000)
+           
+        }
+        let getdata = (event)=>{
+        event.preventDefault();
+        const cart = {
+            Name:event.target.previousElementSibling.innerHTML,
+            Quantity:event.target[0].value
+        };
+        $.ajax({
+            url:"/list/new",
+            type:"POST",
+            contentType:'application/json',
+            data:JSON.stringify(cart),
+            success:
+            function(response){
+                console.log("sucessfully added")
+            },
+           
+        })
+        event.target[0].value = 2
+    }
+    </script>
+   
+    
+</div>

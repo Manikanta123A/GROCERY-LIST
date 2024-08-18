@@ -89,8 +89,9 @@ app.get("/simon",(req,res)=>{
 })
 //error handling
 app.use((err,req,res,next)=>{
-    let {status=500 , message="error"} = err;
-    res.status(status).render("error.ejs",{message})
+    // let {status=500 , message="error"} = err;
+    // res.status(status).render("error.ejs",{message})
+    res.send(err);
 })
 //diary
 app.get("/diary",(req,res)=>{
